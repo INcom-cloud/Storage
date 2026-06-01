@@ -1,0 +1,21 @@
+[Unit]
+Description=T2 FastAPI Service (DB + API)
+After=network-online.target postgresql.service
+Wants=network-online.target
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User={{ t2_run_user }}
+Group={{ t2_run_user }}
+WorkingDirectory={{ t2_install_dir }}
+Environment=DATABASE_URL=postgresql+psycopg2://{{ pg_user }}:{{ pg_password }}@127.0.0.1:5432/{{ pg_db }}
+ExecStart={{ t2_venv_dir }}/bin/uvicorn app.main:app --host {{ t2_bind_host }} --port {{ t2_bind_port }}
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

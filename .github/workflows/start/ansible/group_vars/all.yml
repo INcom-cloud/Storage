@@ -1,0 +1,21 @@
+---
+# 공통 변수 — 1-1.md 의 환경 변수와 매핑
+# (운영 비밀값은 ansible-vault 로 암호화 권장: ansible-vault encrypt_string ...)
+
+# T2 API
+t2_api_url: "http://t2-api:8000"
+t2_api_key: "your-secret-key"   # TODO: ansible-vault 로 대체
+
+# OSV 수집기
+osv_api_timeout: 30
+collector_interval: 3600
+log_level: "INFO"
+
+# 배포 대상 OS 검증값
+expected_os: "RedHat"          # Rocky 9 = RedHat 계열
+expected_os_major: "9"
+
+# bare systemd 배포 경로
+agent_install_dir: "/opt/osv-agent"
+agent_venv_dir: "/opt/osv-agent/venv"
+agent_run_user: "osvagent"

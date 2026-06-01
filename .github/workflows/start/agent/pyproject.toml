@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osv-agent"
+version = "0.1.0"
+description = "T1 Public 노드 OSV 취약점 수집 에이전트"
+requires-python = ">=3.9"
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.scripts]
+osv-agent = "agent.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

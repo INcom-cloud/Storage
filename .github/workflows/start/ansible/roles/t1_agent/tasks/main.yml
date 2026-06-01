@@ -1,0 +1,55 @@
+---
+# T1 Public 노드: dnf/커널/서비스 업데이트 + osv-agent RPM 설치 (네이티브 패키지)
+
+- name: "시스템 패키지 업데이트 (dnf)"
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_only: true
+  register: dnf_update
+  # --check 모드에서도 무엇이 바뀔지 콘솔에 표시됨
+
+- name: "업데이트 결과 디버그 출력"
+  ansible.builtin.debug:
+    var: dnf_update
+    verbosity: 1          # -v 이상에서만 출력
+
+- name: "osv-agent RPM 노드로 전달"
+  ansible.builtin.copy:
+    src: "{{ osv_agent_rpm_local }}"          # 제어 노드의 빌드 산출물(.rpm)
+    dest: "/tmp/{{ osv_agent_rpm_local | basename }}"
+    mode: "0644"
+  register: rpm_copy
+
+- name: "osv-agent RPM 설치 (dnf)"
+  ansible.builtin.dnf:
+    name: "/tmp/{{ osv_agent_rpm_local | basename }}"
+    state: present
+    disable_gpg_check: true                   # 사내 서명 미적용 시. 서명하면 false 로.
+  register: rpm_install
+  failed_when: rpm_install.failed
+  # 설치(=venv 생성 + pip 설치 + 서비스 enable)는 RPM %post 가 수행
+
+- name: "환경변수 파일 배포 (AWX 가 노드별 설정 관리, %config 덮어쓰기)"
+  ansible.builtin.template:
+    src: osv-agent.env.j2
+    dest: "/etc/osv-agent.env"
+    owner: root
+    group: "{{ agent_run_user }}"
+    mode: "0640"
+  notify: restart osv-agent
+
+- name: "서비스 활성화 및 기동"
+  ansible.builtin.systemd:
+    name: osv-agent.service
+    enabled: true
+    state: started
+    daemon_reload: true
+  register: svc
+  failed_when: svc.failed
+
+- name: "서비스 상태 확인 (active 가 아니면 fail)"
+  ansible.builtin.command: systemctl is-active osv-agent.service
+  register: is_active
+  changed_when: false
+  failed_when: is_active.stdout != "active"

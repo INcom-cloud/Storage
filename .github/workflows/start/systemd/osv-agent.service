@@ -1,0 +1,22 @@
+[Unit]
+Description=OSV Vulnerability Collector Agent (T1)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=osvagent
+Group=osvagent
+EnvironmentFile=/etc/osv-agent.env
+ExecStart=/opt/osv-agent/venv/bin/python -m agent
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/osv-agent
+
+[Install]
+WantedBy=multi-user.target

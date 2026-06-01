@@ -1,0 +1,11 @@
+---
+- name: reload postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: reloaded
+
+- name: restart t2-api
+  ansible.builtin.systemd:
+    name: t2-api.service
+    state: restarted
+    daemon_reload: true

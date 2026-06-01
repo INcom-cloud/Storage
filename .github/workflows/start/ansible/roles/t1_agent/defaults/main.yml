@@ -1,0 +1,8 @@
+---
+# t1_agent 기본값 (group_vars 에서 override 가능)
+agent_install_dir: "/opt/osv-agent"   # RPM 이 소유 (참고용)
+agent_venv_dir: "/opt/osv-agent/venv" # RPM %post 가 생성 (참고용)
+agent_run_user: "osvagent"            # RPM %pre 가 생성
+# 제어 노드에 있는 빌드된 RPM 경로. rpmbuild 산출물을 이 경로에 두거나 변수로 덮어쓰기.
+# 예: ansible-playbook ... -e "osv_agent_rpm_local=/path/osv-agent-0.1.0-1.el9.noarch.rpm"
+osv_agent_rpm_local: "{{ playbook_dir }}/../artifacts/osv-agent-0.1.0-1.el9.noarch.rpm"

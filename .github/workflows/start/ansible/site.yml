@@ -1,0 +1,33 @@
+---
+# 전체 진입점 플레이북
+# 실행:
+#   문법검사  : ansible-playbook site.yml --syntax-check
+#   dry-run   : ansible-playbook site.yml --check --diff
+#   디버그실행: ansible-playbook site.yml -vvv
+
+- name: "Preflight — Rocky 9 환경 검증 (모든 노드)"
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: "OS 가 Rocky/RHEL 9 인지 assert (fail 시 콘솔에 명확히 출력)"
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['os_family'] == expected_os
+          - ansible_facts['distribution_major_version'] == expected_os_major
+        fail_msg: >-
+          지원하지 않는 OS 입니다:
+          {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}
+          (요구: Rocky/RHEL {{ expected_os_major }})
+        success_msg: "OS 검증 통과: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"
+
+- name: "T1 — Public 노드 (OSV 수집 에이전트)"
+  hosts: t1
+  become: true
+  roles:
+    - role: t1_agent
+
+- name: "T2 — DB + FastAPI API 서버"
+  hosts: t2
+  become: true
+  roles:
+    - role: t2_api

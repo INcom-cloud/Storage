@@ -1,0 +1,19 @@
+---
+# t2_api 기본값 — 단일 노드(DB+API 통합)
+t2_install_dir: "/opt/t2-api"
+t2_venv_dir: "/opt/t2-api/venv"
+t2_run_user: "t2api"
+t2_bind_host: "0.0.0.0"
+t2_bind_port: 8000
+
+# PostgreSQL
+pg_db: "osvdb"
+pg_user: "osv"
+pg_password: "change-me"          # TODO: ansible-vault 로 암호화
+
+# 제어 노드의 앱 소스 위치 (start/t2-api/). 끝의 / 로 '내용'을 복사.
+t2_src_local: "{{ playbook_dir }}/../t2-api/"
+
+# pip 설치 방식: online(PyPI) | offline(wheelhouse)
+t2_pip_mode: "online"
+t2_wheelhouse: "/opt/t2-api/wheelhouse"   # offline 일 때 사용

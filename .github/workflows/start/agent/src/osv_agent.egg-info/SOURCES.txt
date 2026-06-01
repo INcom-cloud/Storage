@@ -1,0 +1,10 @@
+pyproject.toml
+src/agent/__init__.py
+src/agent/__main__.py
+src/agent/config.py
+src/osv_agent.egg-info/PKG-INFO
+src/osv_agent.egg-info/SOURCES.txt
+src/osv_agent.egg-info/dependency_links.txt
+src/osv_agent.egg-info/entry_points.txt
+src/osv_agent.egg-info/requires.txt
+src/osv_agent.egg-info/top_level.txt

@@ -1,0 +1,6 @@
+---
+- name: restart osv-agent
+  ansible.builtin.systemd:
+    name: osv-agent.service
+    state: restarted
+    daemon_reload: true
