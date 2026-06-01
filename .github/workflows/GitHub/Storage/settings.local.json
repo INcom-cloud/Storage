@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \".github/workflows/1.20260509/start\" && \\\\ *)",
+      "Bash(command -v ansible-playbook)",
+      "Bash(ansible-playbook ansible/site.yml --syntax-check)",
+      "Bash(command -v python3)",
+      "Bash(PYTHONPATH=agent/src python3 -c \"import agent; from agent.config import Config; print\\('agent import OK, version', agent.__version__\\)\")",
+      "Bash(cd \"/c/Users/HSP/Documents/GitHub/Storage/.github/workflows/1.20260509/start\" && find . -type f | sort)",
+      "Read(//c/c/Users/HSP/Documents/GitHub/Storage/.github/workflows/1.20260509/**)",
+      "Bash(cd \"/c/Users/HSP/Documents/GitHub/Storage/.github/workflows/1.20260509/start\" && mkdir -p agent/packaging && echo \"packaging 디렉터리 생성 완료\")",
+      "Bash(cd \"/c/Users/HSP/Documents/GitHub/Storage/.github/workflows/1.20260509/start\" && rm -f ansible/roles/t1_agent/templates/osv-agent.service.j2 && echo \"역할 내 중복 unit 템플릿 제거 완료 \\(RPM 이 unit 소유\\)\" && echo \"--- t1_agent 역할 잔여 파일 ---\" && find ansible/roles/t1_agent -type f | sort)",
+      "Bash(command -v rpmbuild)",
+      "Bash(rpmbuild --version)",
+      "Bash(rm -rf \"/c/Users/HSP/osvbuild-wsl\" 2>/dev/null; echo \"임시 WSL 다운로드 정리 완료\")"
+    ],
+    "additionalDirectories": [
+      "c:\\c\\Users\\HSP\\Documents\\GitHub\\Storage\\.github\\workflows\\1.20260509\\start\\agent",
+      "c:\\c\\Users\\HSP\\Documents\\GitHub\\Storage\\.github\\workflows\\1.20260509\\start\\ansible\\roles\\t1_agent\\templates",
+      "C:\\Users\\HSP\\osvbuild-wsl"
+    ]
+  }
+}
